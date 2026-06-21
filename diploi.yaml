@@ -1,0 +1,43 @@
+diploiVersion: v1.0
+name: WZML-X Telegram Bot
+description: >-
+  WZML-X Telegram Mirror/Leech bot with FastAPI web UI, backed by MongoDB.
+  Handles downloads via aria2, qBittorrent, JDownloader, SABnzbd and more.
+
+components:
+  - name: Python
+    identifier: python
+    folder: /
+    package: https://github.com/diploi/component-python#v05.2026
+    env:
+      include:
+        - mongo.DATABASE_URL
+        - name: PYTHON_VERSION
+          value: "3.11"
+        - name: PORT
+          value: "8080"
+        - name: BOT_TOKEN
+          value: ""
+        - name: OWNER_ID
+          value: ""
+        - name: TELEGRAM_API
+          value: ""
+        - name: TELEGRAM_HASH
+          value: ""
+        - name: BASE_URL
+          value: ""
+        - name: WEB_ACCESS_PASSWORD
+          value: ""
+    containerCommands:
+      developmentStart: python update.py && python -m bot
+      productionStart: python update.py && python -m bot
+    hosts:
+      - identifier: app
+        name: Web UI
+        endpoint: true
+        port: 8080
+
+addons:
+  - name: MongoDB
+    identifier: mongo
+    package: https://github.com/diploi/addon-mongo#v8.2.3-url
